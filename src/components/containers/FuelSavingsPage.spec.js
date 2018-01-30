@@ -1,14 +1,13 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import configureMockStore from "redux-mock-store";
-import { Provider } from "react-redux";
 import { create } from "react-test-renderer";
-import ConnectedFuelSavingsPage, { FuelSavingsPage } from "./FuelSavingsPage";
+import { FuelSavingsPage } from "./FuelSavingsPage";
 import FuelSavingsForm from "../FuelSavingsForm";
 import initialState from "../../reducers/initialState";
 
 describe("<FuelSavingsPage />", () => {
   const actions = {
+    loadFuelSavings: jest.fn(),
     saveFuelSavings: jest.fn(),
     calculateFuelSavings: jest.fn()
   };
@@ -61,11 +60,8 @@ describe("<FuelSavingsPage />", () => {
   });
 
   it("should match snapshot", () => {
-    const store = configureMockStore()(initialState);
     const component = create(
-      <Provider store={store}>
-        <ConnectedFuelSavingsPage />
-      </Provider>
+        <FuelSavingsPage actions={actions} fuelSavings={initialState.fuelSavings} />
     );
     const tree = component.toJSON();
 

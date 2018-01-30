@@ -6,6 +6,10 @@ import * as actions from '../../actions/fuelSavingsActions';
 import FuelSavingsForm from '../FuelSavingsForm';
 
 export class FuelSavingsPage extends React.Component {
+  componentDidMount() {
+    this.props.actions.loadFuelSavings();
+  }
+
   saveFuelSavings = () => {
     this.props.actions.saveFuelSavings(this.props.fuelSavings);
   }

@@ -56,6 +56,13 @@ describe('Reducers::FuelSavings', () => {
     expect(reducer(getAppState(), action)).toEqual(expected);
   });
 
+  it('should handle LOAD_FUEL_SAVINGS', () => {
+    const action = { type: ActionTypes.LOAD_FUEL_SAVINGS, settings: getAppState() };
+    const expected = Object.assign(getAppState(), {});
+
+    expect(reducer(undefined, action)).toEqual(expected);
+  });
+
   it('should handle CALCULATE_FUEL_SAVINGS', () => {
     const action = { type: ActionTypes.CALCULATE_FUEL_SAVINGS, dateModified, settings: getAppState(), fieldName: 'newMpg', value: 30 };
 
