@@ -6,6 +6,9 @@ import { getFormattedDateTime } from "../utils/dates";
 // example of a thunk using the redux-thunk middleware
 export function saveFuelSavings(settings) {
   return function(dispatch) {
+    dispatch({
+      type: types.SAVING_FUEL_SAVINGS
+    });
     return db
       .get("all")
       .then(oldDoc => {
@@ -24,8 +27,6 @@ function withDoc(oldDoc, settings, dispatch) {
     savings: settings
   };
   return db.put(doc).then(() => {
-    // thunks allow for pre-processing actions, calling apis, and dispatching multiple actions
-    // in this case at this point we could call a service that would persist the fuel savings
     return dispatch({
       type: types.SAVE_FUEL_SAVINGS,
       dateModified: getFormattedDateTime(),
@@ -36,14 +37,18 @@ function withDoc(oldDoc, settings, dispatch) {
 
 export function loadFuelSavings() {
   return dispatch => {
+    dispatch({
+      type: types.LOADING_FUEL_SAVINGS
+    });
     return db
       .get("all")
       .then(doc => {
-        return dispatch({ type: types.LOAD_FUEL_SAVINGS, settings: doc.savings });
+        return dispatch({
+          type: types.LOAD_FUEL_SAVINGS,
+          settings: doc.savings
+        });
       })
-      .catch(() => {
-        console.log("No existing data");
-      });
+      .catch(() => {});
   };
 }
 

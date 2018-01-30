@@ -19,6 +19,10 @@ export class FuelSavingsPage extends React.Component {
   }
 
   render() {
+    if (this.props.fuelSavings.loading) {
+      return <div>loading...</div>;
+    }
+
     return (
       <FuelSavingsForm
         onSaveClick={this.saveFuelSavings}

@@ -136,6 +136,7 @@ exports[`<FuelSavingsPage /> should match snapshot 1`] = `
   </table>
   <hr />
   <input
+    disabled={undefined}
     onClick={[Function]}
     type="submit"
     value="Save"

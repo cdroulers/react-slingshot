@@ -9,6 +9,7 @@ Object {
   "necessaryDataIsProvidedToCalculateSavings": false,
   "newMpg": 20,
   "newPpg": 1.5,
+  "saving": false,
   "savings": Object {
     "annual": "$390",
     "monthly": "$32.50",

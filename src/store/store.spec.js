@@ -1,7 +1,7 @@
 import * as ActionTypes from '../constants/actionTypes';
 
 import MockDate from 'mockdate';
-import configureStore from './configureStore';
+import { configureStore } from './configureStore';
 
 import {calculateSavings} from '../utils/fuelSavings';
 import {getFormattedDateTime} from '../utils/dates';
