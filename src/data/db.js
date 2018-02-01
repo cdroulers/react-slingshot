@@ -2,9 +2,11 @@ import PouchDB from "pouchdb";
 import store from "../store/configureStore";
 import { LOAD_FUEL_SAVINGS } from "../constants/actionTypes";
 
-const remoteDB = new PouchDB("http://localhost:5984/fuel");
+const serverUrl = "http://localhost:5984/";
+const currentUserName = localStorage.getItem("userName") || "fuel";
+const remoteDB = new PouchDB(serverUrl + currentUserName);
 
-const db = new PouchDB("fuel");
+const db = new PouchDB(currentUserName);
 
 db
   .sync(remoteDB, {
@@ -29,4 +31,14 @@ db
     // yo, we got an error! (maybe the user went offline?)
   });
 
+window.db = db;
 export default db;
+
+export function setUserName(userName) {
+  localStorage.setItem("userName", userName);
+  const remoteDB = new PouchDB(serverUrl, { name: userName });
+  remoteDB
+    .get("id")
+    .then(() => document.location.reload())
+    .catch(() => document.location.reload());
+}

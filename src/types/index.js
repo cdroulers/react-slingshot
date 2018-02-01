@@ -3,6 +3,12 @@ import PropTypes from 'prop-types';
 
 const { shape, number, bool, string } = PropTypes;
 
+export const caseShape = shape({
+  _id: string,
+  name: string,
+  counter: number
+});
+
 export const fuelSavings = shape({
   newMpg: PropTypes.oneOf[number,string],
   tradeMpg: PropTypes.oneOf[number,string],
