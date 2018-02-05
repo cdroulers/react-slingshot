@@ -7,6 +7,7 @@ import FuelSavingsPage from "./containers/FuelSavingsPage";
 import AboutPage from "./AboutPage";
 import NotFoundPage from "./NotFoundPage";
 import CaseList from "./cases/CaseList";
+import ApolloCaseList from "./cases/ApolloCaseList";
 import { setUserName } from "../data/db";
 
 // This is a class-based component because the current
@@ -34,6 +35,10 @@ class App extends React.Component {
           <NavLink to="/cases" activeStyle={activeStyle}>
             Cases
           </NavLink>
+          {" | "}
+          <NavLink to="/apollo-cases" activeStyle={activeStyle}>
+            Apollo Cases
+          </NavLink>
           <form
             onSubmit={e => {
               e.preventDefault();
@@ -49,6 +54,7 @@ class App extends React.Component {
           <Route path="/fuel-savings" component={FuelSavingsPage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/cases" component={CaseList} />
+          <Route path="/apollo-cases" component={ApolloCaseList} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>

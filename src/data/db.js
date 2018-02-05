@@ -31,6 +31,36 @@ db
     // yo, we got an error! (maybe the user went offline?)
   });
 
+const ddoc = {
+  _id: "_design/cases",
+  views: {
+    by_name: {
+      map: function(doc) {
+        if (doc.type === "case") {
+          emit(doc.name);
+        }
+      }.toString()
+    }
+  }
+};
+
+db
+  .put(ddoc)
+  .then(() => {
+    console.log("Put new view in");
+  })
+  .catch(err => {
+    console.log(err);
+  });
+db
+  .query("cases/by_name", { include_docs: true, limit: 10 })
+  .then(function(res) {
+    console.log(res);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
 window.db = db;
 export default db;
 

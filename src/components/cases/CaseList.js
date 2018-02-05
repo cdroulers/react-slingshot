@@ -7,7 +7,8 @@ import { caseShape } from "../../types";
 export class CaseRow extends React.Component {
   static propTypes = {
     children: PropTypes.element,
-    case: caseShape
+    case: caseShape,
+    updateItemFunc: PropTypes.func
   };
 
   state = {
@@ -16,6 +17,11 @@ export class CaseRow extends React.Component {
 
   updateItem(c) {
     const f = document.forms["case-" + c._id];
+    if (this.props.updateItemFunc) {
+      return this.props.updateItemFunc({ id: c._id, name: f.name.value }).then(() => {
+        this.setState({ editing: false });
+      });
+    }
     c.name = f.name.value;
     const action = {
       _id: "action-" + Date.now().toString(),
@@ -69,12 +75,24 @@ export class CaseRow extends React.Component {
 export class CaseList extends React.Component {
   static propTypes = {
     children: PropTypes.element,
-    cases: PropTypes.arrayOf(caseShape)
+    cases: PropTypes.arrayOf(caseShape),
+    createItemFunc: PropTypes.func,
+    updateItemFunc: PropTypes.func
   };
 
   createItem() {
     const f = document.forms["new-case"];
-    const c = { _id: "case-" + Date.now().toString(), name: f.name.value, type: "case" };
+    const params = { id: Date.now().toString(), name: f.name.value };
+    if (this.props.createItemFunc) {
+      return this.props.createItemFunc(params).then(() => {
+        f.name.value = "";
+      });
+    }
+    const c = {
+      _id: "case-" + params.id,
+      name: params.name,
+      type: "case"
+    };
     const action = {
       _id: "action-" + Date.now().toString(),
       type: "action",
@@ -95,7 +113,7 @@ export class CaseList extends React.Component {
         <ul>
           {this.props.cases.map(x => (
             <li key={x._id}>
-              <CaseRow case={x} />
+              <CaseRow case={x} updateItemFunc={this.props.updateItemFunc} />
             </li>
           ))}
           <li>
